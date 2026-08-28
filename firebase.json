@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/cms/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
