@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { Checkbox } from 'primeng/checkbox';
@@ -14,7 +13,6 @@ import { ProgressBar } from 'primeng/progressbar';
 import { Select } from 'primeng/select';
 import { Tag } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
-import { Toolbar } from 'primeng/toolbar';
 import { NotificationService } from '../core/services/notification.service';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
 import { Avatar } from 'primeng/avatar';
@@ -55,7 +53,6 @@ interface DemoProduct {
   imports: [
     FormsModule,
     CurrencyPipe,
-    RouterLink,
     ButtonDirective,
     Accordion,
     AccordionContent,
@@ -83,8 +80,7 @@ interface DemoProduct {
     Tag,
     TableModule,
     ToggleSwitch,
-    Tooltip,
-    Toolbar
+    Tooltip
   ],
   templateUrl: './demo.component.html'
 })
