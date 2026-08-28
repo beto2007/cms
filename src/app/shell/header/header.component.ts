@@ -26,6 +26,9 @@ export class HeaderComponent {
       label: 'Perfil',
       items: [
         {
+          label: this.userEmail
+        },
+        {
           label: 'Mi cuenta',
           icon: 'pi pi-user',
           routerLink: ['/profile']
