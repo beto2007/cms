@@ -4,7 +4,17 @@
     <div class="grid">
       <!-- Columna Formulario -->
       <div class="col-12 md:col-4 p-3">
-        <app-task-form [user]="currentUser"></app-task-form>
+        @if (canCreateTask()) {
+          <app-task-form [user]="currentUser"></app-task-form>
+        } @else {
+          <p-card styleClass="shadow-2 border-round-xl p-3 text-center">
+            <i class="pi pi-lock text-3xl text-color-secondary mb-2"></i>
+            <h4 class="m-0 font-bold text-700">Creación Deshabilitada</h4>
+            <p class="text-xs text-color-secondary mt-1 mb-0">
+              Tu rol actual solo dispone de permisos de consulta (select).
+            </p>
+          </p-card>
+        }
       </div>
 
       <!-- Columna Listado -->
@@ -52,16 +62,18 @@
                           </div>
                         }
                       </div>
-                      <p-button
-                        icon="pi pi-trash"
-                        severity="danger"
-                        [outlined]="true"
-                        [rounded]="true"
-                        (onClick)="deleteTask(task)"
-                        [disabled]="deletingId() === task.id"
-                        [loading]="deletingId() === task.id"
-                        title="Eliminar tarea"
-                      />
+                      @if (canDeleteTask()) {
+                        <p-button
+                          icon="pi pi-trash"
+                          severity="danger"
+                          [outlined]="true"
+                          [rounded]="true"
+                          (onClick)="deleteTask(task)"
+                          [disabled]="deletingId() === task.id"
+                          [loading]="deletingId() === task.id"
+                          title="Eliminar tarea"
+                        />
+                      }
                     </div>
                   </p-card>
                 }

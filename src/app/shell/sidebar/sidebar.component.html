@@ -8,7 +8,14 @@
   />
   <div class="flex flex-column">
     <span class="font-bold text-lg line-height-2">Nova CMS</span>
-    <span class="text-xs text-color-secondary">Panel de control</span>
+    @if (user()) {
+      <div class="flex align-items-center gap-2 mt-1">
+        <span class="text-xs text-color-secondary">Rol:</span>
+        <p-tag [value]="currentRole() | uppercase" [severity]="getRoleSeverity(currentRole())" styleClass="text-xs font-semibold" />
+      </div>
+    } @else {
+      <span class="text-xs text-color-secondary">Panel de control</span>
+    }
   </div>
 </div>
 
@@ -32,17 +39,38 @@
     <span>Home</span>
   </a>
 
-  <!-- Tareas — solo si está autenticado -->
+  <!-- Tareas — solo si está autenticado y tiene acceso a la ruta -->
   @if (user()) {
-    <a
-      routerLink="/tasks"
-      routerLinkActive="surface-200 font-semibold text-primary"
-      pRipple
-      class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
-    >
-      <i class="pi pi-check-square text-lg"></i>
-      <span class="flex-1">Tareas</span>
-    </a>
+    @if (hasRouteAccess('/tasks')) {
+      <a
+        routerLink="/tasks"
+        routerLinkActive="surface-200 font-semibold text-primary"
+        pRipple
+        class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+      >
+        <i class="pi pi-check-square text-lg"></i>
+        <span class="flex-1">Tareas</span>
+      </a>
+    } @else {
+      <div class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color-secondary cursor-not-allowed opacity-50">
+        <i class="pi pi-check-square text-lg"></i>
+        <span class="flex-1">Tareas</span>
+        <p-tag value="Sin Acceso" severity="danger" styleClass="text-xs" />
+      </div>
+    }
+
+    <!-- Gestión de Roles (RBAC) -->
+    @if (hasRouteAccess('/roles')) {
+      <a
+        routerLink="/roles"
+        routerLinkActive="surface-200 font-semibold text-primary"
+        pRipple
+        class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+      >
+        <i class="pi pi-shield text-lg"></i>
+        <span class="flex-1">Roles & Permisos</span>
+      </a>
+    }
   } @else {
     <!-- Tareas bloqueada para invitados -->
     <div
