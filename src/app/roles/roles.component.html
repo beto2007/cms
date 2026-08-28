@@ -1,0 +1,141 @@
+<div class="p-4 flex flex-column gap-4 max-w-full">
+  <!-- Encabezado y Descripción -->
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center gap-3">
+    <div>
+      <h1 class="text-3xl font-bold text-900 m-0">Matriz de Permisos y Roles (RBAC)</h1>
+      <p class="text-color-secondary mt-1 mb-0">
+        Configuración dinámica guardada en Firestore. Define acciones y rutas permitidas para cada perfil.
+      </p>
+    </div>
+
+    <!-- Switcher de rol de usuario actual -->
+    <div class="flex align-items-center gap-3 surface-card p-3 border-round-xl shadow-1 border-1 border-200">
+      <span class="font-semibold text-sm text-700">Tu Rol Actual:</span>
+      <p-select
+        [options]="roleOptions"
+        [ngModel]="selectedRoleForUser()"
+        (ngModelChange)="switchMyRole($event)"
+        optionLabel="label"
+        optionValue="value"
+        styleClass="w-14rem"
+      ></p-select>
+    </div>
+  </div>
+
+  <!-- Tarjetas Informativas de Roles -->
+  <div class="grid">
+    <div class="col-12 md:col-4">
+      <div class="surface-card p-4 border-round-xl border-1 border-200 shadow-1 h-full flex flex-column justify-content-between">
+        <div>
+          <div class="flex align-items-center gap-2 mb-2">
+            <p-tag value="ADMINISTRADOR" severity="danger"></p-tag>
+            <span class="font-bold text-xl">admin</span>
+          </div>
+          <p class="text-color-secondary text-sm m-0">
+            Acceso total a todos los módulos y privillegios completos (select, create, update, delete, write).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+      <div class="surface-card p-4 border-round-xl border-1 border-200 shadow-1 h-full flex flex-column justify-content-between">
+        <div>
+          <div class="flex align-items-center gap-2 mb-2">
+            <p-tag value="EDITOR" severity="warn"></p-tag>
+            <span class="font-bold text-xl">editor</span>
+          </div>
+          <p class="text-color-secondary text-sm m-0">
+            Acceso a funciones operativas (select, create, update, delete, write) excepto gestión de administración/roles.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+      <div class="surface-card p-4 border-round-xl border-1 border-200 shadow-1 h-full flex flex-column justify-content-between">
+        <div>
+          <div class="flex align-items-center gap-2 mb-2">
+            <p-tag value="VIEWER" severity="info"></p-tag>
+            <span class="font-bold text-xl">viewer</span>
+          </div>
+          <p class="text-color-secondary text-sm m-0">
+            Acceso de solo lectura (únicamente privilegio select). Sin permisos de edición ni creación.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Matriz de Permisos por Rol -->
+  <p-card header="Matriz Dinámica de Acciones y Acceso a Rutas" styleClass="shadow-2 border-round-xl">
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse rbac-matrix-table">
+        <thead>
+          <tr class="surface-100 text-left border-bottom-1 border-300">
+            <th class="p-3 text-900 font-bold">Módulo / Ruta</th>
+            <th class="p-3 text-900 font-bold">Acciones / Privilegios</th>
+            <th *ngFor="let role of roles" class="p-3 text-center text-900 font-bold">
+              <div class="flex flex-column align-items-center gap-1">
+                <p-tag [value]="role | uppercase" [severity]="getRoleSeverity(role)"></p-tag>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let mod of modules">
+            <!-- Fila de Acceso a Ruta -->
+            <tr class="border-top-1 border-200 bg-blue-50">
+              <td class="p-3 font-bold text-primary" colspan="2">
+                <i class="pi pi-link mr-2"></i> Acceso a Ruta: <code>{{ mod.route }}</code> ({{ mod.name }})
+              </td>
+              <td *ngFor="let role of roles" class="p-3 text-center">
+                <p-checkbox
+                  [binary]="true"
+                  [ngModel]="isRouteEnabled(role, mod.route)"
+                  (ngModelChange)="toggleRoute(role, mod.route)"
+                  [label]="isRouteEnabled(role, mod.route) ? 'Permitido' : 'Bloqueado'"
+                ></p-checkbox>
+              </td>
+            </tr>
+
+            <!-- Filas de Acciones de Permisos por Módulo -->
+            <tr *ngFor="let priv of privileges" class="border-bottom-1 border-100 hover:surface-50">
+              <td class="p-3 pl-5 text-color-secondary text-sm">{{ mod.name }}</td>
+              <td class="p-3 font-semibold text-700">
+                <span class="px-2 py-1 border-round text-xs font-mono surface-200 uppercase">{{ priv }}</span>
+              </td>
+              <td *ngFor="let role of roles" class="p-3 text-center">
+                <p-checkbox
+                  [binary]="true"
+                  [ngModel]="hasPrivilege(role, mod.key, priv)"
+                  (ngModelChange)="togglePrivilege(role, mod.key, priv)"
+                ></p-checkbox>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Acciones de guardar / restaurar -->
+    <div class="flex justify-content-end gap-3 mt-4 pt-3 border-top-1 border-200">
+      <button
+        pButton
+        label="Descartar Cambios"
+        icon="pi pi-refresh"
+        class="p-button-outlined p-button-secondary"
+        (click)="resetConfig()"
+        [disabled]="saving()"
+      ></button>
+      <button
+        pButton
+        label="Guardar Matriz en Firestore"
+        icon="pi pi-save"
+        class="p-button-primary"
+        (click)="saveMatrix()"
+        [loading]="saving()"
+      ></button>
+    </div>
+  </p-card>
+</div>

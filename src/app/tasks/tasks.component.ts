@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'firebase/auth';
 import { catchError, of } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
+import { RbacService } from '../core/services/rbac.service';
 import { Task, TasksService } from '../core/services/tasks.service';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { Button } from 'primeng/button';
@@ -19,6 +20,7 @@ import { Divider } from 'primeng/divider';
 })
 export class TasksComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly rbacService = inject(RbacService);
   private readonly router = inject(Router);
   private readonly tasksService = inject(TasksService);
   private readonly notifications = inject(NotificationService);
@@ -29,6 +31,14 @@ export class TasksComponent implements OnInit {
   protected loadError = false;
   protected readonly deletingId = signal<string | null>(null);
   protected readonly deleteError = signal('');
+
+  protected canCreateTask(): boolean {
+    return this.rbacService.hasPrivilege('tasks', 'create') || this.rbacService.hasPrivilege('tasks', 'write');
+  }
+
+  protected canDeleteTask(): boolean {
+    return this.rbacService.hasPrivilege('tasks', 'delete');
+  }
 
   ngOnInit(): void {
     this.authService.authStateReady().then((currentUser) => {
