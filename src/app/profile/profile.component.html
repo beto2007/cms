@@ -1,0 +1,106 @@
+<section class="p-5 flex justify-content-center align-items-center min-h-full">
+  <div class="w-full md:w-8 lg:w-5">
+    <p class="text-color-secondary mt-0 mb-2">Ajustes de cuenta</p>
+    <h1 class="text-4xl mt-0 mb-4 font-bold">Mi cuenta</h1>
+
+    <p-card styleClass="shadow-2 border-round-xl overflow-hidden">
+      <!-- Profile Header Area -->
+      <div class="flex flex-column align-items-center text-center p-4 bg-primary-reverse border-bottom-1 border-100">
+        <p-avatar
+          [label]="userInitial"
+          shape="circle"
+          size="xlarge"
+          [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff', 'width': '80px', 'height': '80px', 'font-size': '2.5rem' }"
+          styleClass="shadow-2 mb-3"
+        />
+        <h2 class="text-2xl font-semibold m-0 text-color">{{ displayName }}</h2>
+        <span class="text-sm text-color-secondary mt-1">{{ userEmail }}</span>
+      </div>
+
+      <!-- Profile Details -->
+      @if (loadingProfile()) {
+        <div class="p-5 flex flex-column align-items-center justify-content-center gap-3">
+          <i class="pi pi-spin pi-spinner text-3xl text-primary"></i>
+          <span class="text-color-secondary text-sm">Cargando detalles de cuenta...</span>
+        </div>
+      } @else {
+        <div class="p-4 flex flex-column gap-4">
+          <!-- Grid Nombre y Apellido -->
+          <div class="grid grid-nogutter">
+            <div class="col-12 sm:col-6 flex flex-column gap-1 mb-3 sm:mb-0">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Nombre</span>
+              <span class="text-sm font-medium text-color">{{ firstName || 'No registrado' }}</span>
+            </div>
+            <div class="col-12 sm:col-6 flex flex-column gap-1">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Apellido</span>
+              <span class="text-sm font-medium text-color">{{ lastName || 'No registrado' }}</span>
+            </div>
+          </div>
+
+          <p-divider styleClass="my-1" />
+
+          <!-- Teléfono -->
+          <div class="flex align-items-center gap-3">
+            <i class="pi pi-phone text-2xl text-primary flex-shrink-0"></i>
+            <div class="flex flex-column">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Teléfono</span>
+              <span class="text-sm font-medium text-color">{{ phoneNumber }}</span>
+            </div>
+          </div>
+
+          <p-divider styleClass="my-1" />
+
+          <!-- Item: UID -->
+          <div class="flex align-items-center gap-3">
+            <i class="pi pi-id-card text-2xl text-primary flex-shrink-0"></i>
+            <div class="flex flex-column">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">ID de Usuario (UID)</span>
+              <span class="text-sm font-medium text-color font-monospace select-all">{{ userUid }}</span>
+            </div>
+          </div>
+
+          <p-divider styleClass="my-1" />
+
+          <!-- Item: Proveedor -->
+          <div class="flex align-items-center gap-3">
+            <i class="pi pi-shield text-2xl text-primary flex-shrink-0"></i>
+            <div class="flex flex-column">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Método de autenticación</span>
+              <span class="text-sm font-medium text-color">{{ providerId }}</span>
+            </div>
+          </div>
+
+          <p-divider styleClass="my-1" />
+
+          <!-- Item: Creación -->
+          <div class="flex align-items-center gap-3">
+            <i class="pi pi-calendar text-2xl text-primary flex-shrink-0"></i>
+            <div class="flex flex-column">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Miembro desde</span>
+              <span class="text-sm font-medium text-color">{{ creationTime }}</span>
+            </div>
+          </div>
+
+          <p-divider styleClass="my-1" />
+
+          <!-- Item: Último acceso -->
+          <div class="flex align-items-center gap-3">
+            <i class="pi pi-history text-2xl text-primary flex-shrink-0"></i>
+            <div class="flex flex-column">
+              <span class="text-xs text-color-secondary font-semibold uppercase letter-spacing-1">Último inicio de sesión</span>
+              <span class="text-sm font-medium text-color">{{ lastSignInTime }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Action Footer -->
+      <ng-template #footer>
+        <div class="flex justify-content-between align-items-center gap-3 p-3">
+          <p-button routerLink="/" icon="pi pi-home" label="Volver al inicio" severity="secondary" [outlined]="true" />
+          <p-button routerLink="/tasks" icon="pi pi-check-square" label="Ver tareas" severity="primary" />
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</section>

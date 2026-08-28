@@ -29,7 +29,10 @@
         pRipple
       />
     } @else {
-      <p-button label="Iniciar sesión" [text]="true" severity="secondary" routerLink="/login" />
+      <div class="flex align-items-center gap-2">
+        <p-button label="Iniciar sesión" [text]="true" severity="secondary" routerLink="/login" />
+        <p-button label="Crear cuenta" severity="primary" routerLink="/register" />
+      </div>
     }
   </ng-template>
 </p-toolbar>

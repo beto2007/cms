@@ -27,7 +27,8 @@ export class HeaderComponent {
       items: [
         {
           label: 'Mi cuenta',
-          icon: 'pi pi-user'
+          icon: 'pi pi-user',
+          routerLink: ['/profile']
         },
         {
           label: 'Cerrar sesión',

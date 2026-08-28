@@ -1,16 +1,16 @@
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from 'firebase/auth';
-import { TasksService } from '../core/services/tasks.service';
-import { ButtonDirective } from 'primeng/button';
+import { TasksService } from '../../core/services/tasks.service';
+import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
-import { NotificationService } from '../core/services/notification.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-task-form',
-  imports: [ReactiveFormsModule, ButtonDirective, InputText, Textarea, Card],
+  imports: [ReactiveFormsModule, Button, InputText, Textarea, Card],
   templateUrl: './task-form.component.html'
 })
 export class TaskFormComponent {
@@ -19,6 +19,7 @@ export class TaskFormComponent {
   private readonly tasksService = inject(TasksService);
   private readonly notifications = inject(NotificationService);
   private readonly formBuilder = inject(FormBuilder);
+
   protected readonly taskForm = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(120)]],
     description: ['', Validators.maxLength(500)]
