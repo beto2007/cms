@@ -1,0 +1,19 @@
+<main class="home-page">
+  <nav class="home-nav">
+    <span class="brand">Nova CMS</span>
+    @if (user()) {
+      <a class="nav-link" routerLink="/tasks">Ir a mis tareas</a>
+    } @else {
+      <div class="nav-actions">
+        <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+        <a class="nav-button" routerLink="/register">Crear cuenta</a>
+      </div>
+    }
+  </nav>
+  <section class="home-intro">
+    <p class="eyebrow">Organiza tu trabajo</p>
+    <h1>Todo lo importante,<br><em>en movimiento.</em></h1>
+    <p class="home-copy">Un espacio sencillo para convertir tus pendientes en progreso.</p>
+    <a class="primary-link" [routerLink]="user() ? '/tasks' : '/register'">{{ user() ? 'Ver mis tareas' : 'Comenzar ahora' }} <span aria-hidden="true">↗</span></a>
+  </section>
+</main>

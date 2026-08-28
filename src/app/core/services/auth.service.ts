@@ -12,9 +12,21 @@ import {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   readonly user = signal<User | null>(null);
+  private readonly authReady: Promise<User | null>;
+  private authInitialized = false;
 
   constructor(@Inject('FIREBASE_AUTH') private readonly auth: Auth) {
-    onAuthStateChanged(this.auth, (user) => this.user.set(user));
+    this.authReady = new Promise((resolve) => {
+      onAuthStateChanged(this.auth, (user) => {
+        this.user.set(user);
+        this.authInitialized = true;
+        resolve(user);
+      });
+    });
+  }
+
+  authStateReady(): Promise<User | null> {
+    return this.authInitialized ? Promise.resolve(this.user()) : this.authReady;
   }
 
   signIn(email: string, password: string): Promise<UserCredential> {
