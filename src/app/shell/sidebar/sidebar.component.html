@@ -1,0 +1,119 @@
+<!-- Sidebar Header / Logo -->
+<div class="flex align-items-center gap-3 px-4 py-4 border-bottom-1 border-200">
+  <p-avatar
+    icon="pi pi-bolt"
+    shape="circle"
+    size="large"
+    [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff' }"
+  />
+  <div class="flex flex-column">
+    <span class="font-bold text-lg line-height-2">Nova CMS</span>
+    <span class="text-xs text-color-secondary">Panel de control</span>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="flex flex-column gap-1 px-3 pt-4 flex-1">
+
+  <!-- Label sección -->
+  <span class="text-xs font-semibold text-color-secondary uppercase px-3 mb-1 letter-spacing-1">
+    Navegación
+  </span>
+
+  <!-- Home -->
+  <a
+    routerLink="/"
+    routerLinkActive="surface-200 font-semibold text-primary"
+    [routerLinkActiveOptions]="{ exact: true }"
+    pRipple
+    class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+  >
+    <i class="pi pi-home text-lg"></i>
+    <span>Home</span>
+  </a>
+
+  <!-- Tareas — solo si está autenticado -->
+  @if (user()) {
+    <a
+      routerLink="/tasks"
+      routerLinkActive="surface-200 font-semibold text-primary"
+      pRipple
+      class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+    >
+      <i class="pi pi-check-square text-lg"></i>
+      <span class="flex-1">Tareas</span>
+    </a>
+  } @else {
+    <!-- Tareas bloqueada para invitados -->
+    <div
+      class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color-secondary cursor-not-allowed opacity-50"
+    >
+      <i class="pi pi-check-square text-lg"></i>
+      <span class="flex-1">Tareas</span>
+      <p-tag value="Login" severity="secondary" styleClass="text-xs" />
+    </div>
+  }
+
+  <!-- Demo -->
+  <a
+    routerLink="/demo"
+    routerLinkActive="surface-200 font-semibold text-primary"
+    pRipple
+    class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+  >
+    <i class="pi pi-palette text-lg"></i>
+    <span>Demo UI</span>
+  </a>
+
+  <p-divider styleClass="my-2" />
+
+  <!-- Separador auth -->
+  @if (user()) {
+    <p-button
+      label="Cerrar sesión"
+      icon="pi pi-sign-out"
+      severity="danger"
+      [text]="true"
+      styleClass="w-full justify-content-start"
+      (onClick)="signOut()"
+    />
+  } @else {
+    <a
+      routerLink="/login"
+      pRipple
+      class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-color no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer"
+    >
+      <i class="pi pi-sign-in text-lg"></i>
+      <span>Iniciar sesión</span>
+    </a>
+    <a
+      routerLink="/register"
+      pRipple
+      class="flex align-items-center gap-3 px-3 py-3 border-round-lg text-primary no-underline transition-colors transition-duration-150 hover:surface-100 cursor-pointer font-semibold"
+    >
+      <i class="pi pi-user-plus text-lg"></i>
+      <span>Crear cuenta</span>
+    </a>
+  }
+
+</nav>
+
+<!-- User Footer -->
+<div class="px-4 py-3 border-top-1 border-200 flex align-items-center gap-3">
+  <p-avatar
+    [label]="userInitial"
+    shape="circle"
+    [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff' }"
+  />
+  <div class="flex flex-column overflow-hidden flex-1">
+    <span class="font-semibold text-sm line-height-2 white-space-nowrap overflow-hidden text-overflow-ellipsis">
+      {{ userEmail }}
+    </span>
+    <span class="text-xs text-color-secondary">
+      {{ user() ? 'Autenticado' : 'Invitado' }}
+    </span>
+  </div>
+  @if (user()) {
+    <i class="pi pi-ellipsis-v text-color-secondary cursor-pointer"></i>
+  }
+</div>

@@ -1,0 +1,35 @@
+<p-toolbar styleClass="border-none border-bottom-1 border-200 px-3 py-2 surface-card">
+  <ng-template #start>
+    <!-- Hamburger button -->
+    <p-button
+      icon="pi pi-bars"
+      [text]="true"
+      [rounded]="true"
+      severity="secondary"
+      (onClick)="toggleSidebar.emit()"
+      ariaLabel="Abrir menú lateral"
+    />
+  </ng-template>
+
+  <ng-template #center>
+    <span class="font-bold text-xl text-primary">Nova CMS</span>
+  </ng-template>
+
+  <ng-template #end>
+    @if (user()) {
+      <!-- Avatar con menú desplegable -->
+      <p-menu #profileMenu [model]="profileItems" [popup]="true" appendTo="body" />
+      <p-avatar
+        [label]="userInitial"
+        shape="circle"
+        styleClass="cursor-pointer"
+        [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff' }"
+        (click)="toggleProfileMenu($event)"
+        [title]="userEmail"
+        pRipple
+      />
+    } @else {
+      <p-button label="Iniciar sesión" [text]="true" severity="secondary" routerLink="/login" />
+    }
+  </ng-template>
+</p-toolbar>

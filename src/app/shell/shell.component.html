@@ -1,0 +1,21 @@
+<!-- Backdrop: solo visible en mobile cuando el sidebar está abierto -->
+@if (sidebarVisible() && isMobile()) {
+  <div class="shell-backdrop" (click)="closeSidebarOnMobile()"></div>
+}
+
+<!-- Sidebar persistente (flex child en desktop / overlay en mobile) -->
+<aside class="shell-sidebar surface-section border-right-1 border-200 flex flex-column"
+       [class.collapsed]="!sidebarVisible()">
+  <app-sidebar />
+</aside>
+
+<!-- Área principal: header + contenido -->
+<div class="shell-main">
+
+  <app-header (toggleSidebar)="toggleSidebar()" />
+
+  <main class="shell-content surface-ground">
+    <router-outlet />
+  </main>
+
+</div>

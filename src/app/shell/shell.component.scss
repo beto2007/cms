@@ -1,0 +1,60 @@
+/* =============================================
+   Shell Layout — estilos mínimos necesarios
+   que PrimeFlex no cubre (transición de sidebar)
+   ============================================= */
+
+:host {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Sidebar persistente ---- */
+.shell-sidebar {
+  width: 17rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.25s ease;
+}
+
+.shell-sidebar.collapsed {
+  width: 0;
+}
+
+/* ---- Área principal ---- */
+.shell-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0; /* evita desbordamiento en flex */
+}
+
+.shell-content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* ---- Mobile: sidebar como overlay ---- */
+@media (max-width: 768px) {
+  .shell-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+  }
+
+  .shell-backdrop {
+    display: block !important;
+  }
+}
+
+.shell-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  cursor: pointer;
+}

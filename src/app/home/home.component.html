@@ -1,23 +1,8 @@
-<main>
-  <p-toolbar>
-    <ng-template #start>
-      <span class="text-xl font-bold">Nova CMS</span>
-    </ng-template>
-    <ng-template #end>
-    <a pButton routerLink="/demo" [text]="true">Demo UI</a>
-    @if (user()) {
-      <a pButton routerLink="/tasks" [text]="true">Ir a mis tareas</a>
-    } @else {
-      <a pButton routerLink="/login" [text]="true">Iniciar sesión</a>
-      <a pButton routerLink="/register">Crear cuenta</a>
-    }
-    </ng-template>
-  </p-toolbar>
-  <section class="p-5">
-    <div class="w-full md:w-9 mx-auto">
-    <p class="text-color-secondary">Panel de control</p>
-    <h1 class="text-4xl m-0">Organiza tu trabajo</h1>
-    <p class="text-lg text-color-secondary">Un espacio sencillo para convertir tus pendientes en progreso.</p>
+<section class="p-5">
+  <div class="w-full md:w-9 mx-auto">
+    <p class="text-color-secondary mt-0">Panel de control</p>
+    <h1 class="text-4xl mt-0 mb-2">Organiza tu trabajo</h1>
+    <p class="text-lg text-color-secondary mt-0">Un espacio sencillo para convertir tus pendientes en progreso.</p>
     <p-card>
       <ng-template #title>Tu espacio de trabajo</ng-template>
       <ng-template #subtitle>Gestiona tus tareas desde un solo lugar.</ng-template>
@@ -25,6 +10,6 @@
         <a pButton [routerLink]="user() ? '/tasks' : '/register'">{{ user() ? 'Ver mis tareas' : 'Comenzar ahora' }}</a>
       </ng-template>
     </p-card>
-    </div>
-  </section>
-</main>
+  </div>
+</section>
+
