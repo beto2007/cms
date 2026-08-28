@@ -56,6 +56,7 @@ export class AuthService {
     // Guardar detalles adicionales en Firestore
     const userDocRef = doc(this.firestore, 'users', user.uid);
     await setDoc(userDocRef, {
+      uid: user.uid,
       firstName,
       lastName,
       phoneNumber: phoneNumber || null,

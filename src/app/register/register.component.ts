@@ -42,8 +42,8 @@ export class RegisterComponent {
     this.error.set('');
     try {
       await this.authService.signUp(email, password, firstName, lastName, phoneNumber);
-      this.notifications.success('Cuenta creada correctamente.');
-      await this.router.navigateByUrl('/tasks');
+      this.notifications.success(`¡Bienvenido, ${firstName}! Tu cuenta ha sido creada con éxito.`);
+      await this.router.navigateByUrl('/');
     } catch (error) {
       const code = (error as { code?: string }).code;
       this.error.set(code === 'auth/email-already-in-use'
