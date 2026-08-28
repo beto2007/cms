@@ -1,0 +1,388 @@
+<main class="min-h-screen surface-ground">
+  <p-toolbar>
+    <ng-template #start>
+      <a pButton routerLink="/" [text]="true"><i class="pi pi-arrow-left" aria-hidden="true"></i> Nova CMS</a>
+    </ng-template>
+    <ng-template #end>
+      <span class="text-color-secondary">PrimeNG component gallery</span>
+    </ng-template>
+  </p-toolbar>
+
+  <section class="p-4 md:p-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="mb-5">
+        <p class="text-color-secondary uppercase font-semibold">UI kit</p>
+        <h1 class="text-4xl mt-2 mb-2">Componentes PrimeNG</h1>
+        <p class="text-color-secondary text-lg m-0">Diez piezas esenciales para construir interfaces administrativas.</p>
+      </div>
+
+      <div class="grid">
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>1. Button</ng-template>
+            <ng-template #subtitle>Acciones principales y secundarias</ng-template>
+            <div class="flex flex-wrap gap-2">
+              <button pButton type="button" (click)="saveDemo()">Guardar</button>
+              <button pButton type="button" severity="secondary" [outlined]="true" (click)="cancelDemo()">Cancelar</button>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>2. InputText</ng-template>
+            <ng-template #subtitle>Entrada de texto</ng-template>
+            <label for="demo-name" class="block mb-2">Nombre del proyecto</label>
+            <input pInputText id="demo-name" [(ngModel)]="email" placeholder="Nova CMS" class="w-full">
+            <small class="text-color-secondary">Valor: {{ email || 'sin definir' }}</small>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>3. Password</ng-template>
+            <ng-template #subtitle>Credenciales seguras</ng-template>
+            <p-password [(ngModel)]="password" [feedback]="true" [toggleMask]="true" placeholder="Contraseña" class="w-full"></p-password>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>4. Select</ng-template>
+            <ng-template #subtitle>Selección de opciones</ng-template>
+            <p-select [options]="priorities" [(ngModel)]="selectedPriority" placeholder="Selecciona prioridad" class="w-full"></p-select>
+            <p class="text-color-secondary mb-0">Prioridad: {{ selectedPriority }}</p>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>5. DatePicker</ng-template>
+            <ng-template #subtitle>Fechas y calendarios</ng-template>
+            <p-datepicker [(ngModel)]="selectedDate" [showIcon]="true" placeholder="Selecciona una fecha" class="w-full"></p-datepicker>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>6. Checkbox</ng-template>
+            <ng-template #subtitle>Preferencias binarias</ng-template>
+            <div class="flex align-items-center gap-2">
+              <p-checkbox [(ngModel)]="notificationsEnabled" [binary]="true" inputId="demo-notifications"></p-checkbox>
+              <label for="demo-notifications">Recibir notificaciones</label>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 lg:col-8">
+          <p-card>
+            <ng-template #title>7. Table</ng-template>
+            <ng-template #subtitle>Datos operativos en formato tabular</ng-template>
+            <p-table [value]="tasks" [tableStyle]="{ 'min-width': '30rem' }" responsiveLayout="scroll">
+              <ng-template #header>
+                <tr><th>Tarea</th><th>Responsable</th><th>Estado</th></tr>
+              </ng-template>
+              <ng-template #body let-task>
+                <tr><td>{{ task.name }}</td><td>{{ task.owner }}</td><td><p-tag [value]="task.status" [severity]="statusSeverity(task.status)"></p-tag></td></tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>8. ProgressBar</ng-template>
+            <ng-template #subtitle>Avance de procesos</ng-template>
+            <p-progressbar [value]="progress"></p-progressbar>
+            <button pButton type="button" class="mt-3" (click)="increaseProgress()">Avanzar</button>
+          </p-card>
+        </div>
+
+        <div class="col-12 lg:col-8">
+          <p-card>
+            <ng-template #title>22. Table ordenable</ng-template>
+            <ng-template #subtitle>Ordena proyectos por progreso o equipo</ng-template>
+            <p-table [value]="projects" sortField="progress" [sortOrder]="-1" responsiveLayout="scroll">
+              <ng-template #header>
+                <tr>
+                  <th pSortableColumn="name">Proyecto <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="team">Equipo <p-sortIcon field="team"></p-sortIcon></th>
+                  <th pSortableColumn="progress">Progreso <p-sortIcon field="progress"></p-sortIcon></th>
+                  <th>Estado</th>
+                </tr>
+              </ng-template>
+              <ng-template #body let-project>
+                <tr>
+                  <td>{{ project.name }}</td>
+                  <td>{{ project.team }}</td>
+                  <td>{{ project.progress }}%</td>
+                  <td><p-tag [value]="project.status" [severity]="projectSeverity(project.status)"></p-tag></td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>23. Tabla de inventario</ng-template>
+            <ng-template #subtitle>Formato compacto para catálogos</ng-template>
+            <p-table [value]="products" styleClass="p-datatable-sm" responsiveLayout="scroll">
+              <ng-template #header>
+                <tr><th>Producto</th><th>Precio</th><th>Stock</th></tr>
+              </ng-template>
+              <ng-template #body let-product>
+                <tr>
+                  <td><span class="font-semibold">{{ product.name }}</span><br><small class="text-color-secondary">{{ product.category }}</small></td>
+                  <td>{{ product.price | currency:'USD' }}</td>
+                  <td><p-tag [value]="product.stock + ' uds.'" [severity]="product.stock > 0 ? 'success' : 'danger'"></p-tag></td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>24. Tabla con acciones</ng-template>
+            <ng-template #subtitle>Acciones rápidas por registro</ng-template>
+            <p-table [value]="tasks" responsiveLayout="scroll">
+              <ng-template #header>
+                <tr><th>Tarea</th><th>Responsable</th><th></th></tr>
+              </ng-template>
+              <ng-template #body let-task>
+                <tr>
+                  <td>{{ task.name }}</td>
+                  <td>{{ task.owner }}</td>
+                  <td><button pButton type="button" [text]="true" aria-label="Más acciones" (click)="saveDemo()"><i class="pi pi-ellipsis-v" aria-hidden="true"></i></button></td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>9. Dialog</ng-template>
+            <ng-template #subtitle>Flujos que requieren atención</ng-template>
+            <button pButton type="button" (click)="dialogVisible = true">Abrir diálogo</button>
+            <p-dialog header="Vista previa" [(visible)]="dialogVisible" [modal]="true" [style]="{ width: 'min(32rem, 90vw)' }">
+              <p class="m-0">Este diálogo puede contener confirmaciones, formularios o información contextual.</p>
+            </p-dialog>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>10. Message</ng-template>
+            <ng-template #subtitle>Feedback contextual</ng-template>
+            <div class="flex flex-column gap-2">
+              <p-message severity="success">Operación completada correctamente.</p-message>
+              <p-message severity="info">Hay cambios pendientes de revisión.</p-message>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>11. Avatar & Badge</ng-template>
+            <ng-template #subtitle>Identidad y contadores</ng-template>
+            <div class="flex align-items-center gap-3">
+              <p-avatar label="NC" shape="circle"></p-avatar>
+              <span class="font-semibold">Nova CMS</span>
+              <span pBadge value="4" severity="danger"></span>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>12. Chip</ng-template>
+            <ng-template #subtitle>Etiquetas compactas</ng-template>
+            <div class="flex flex-wrap gap-2">
+              <p-chip label="Producto" icon="pi pi-box"></p-chip>
+              <p-chip label="Prioridad alta" removable="true"></p-chip>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4">
+          <p-card>
+            <ng-template #title>13. InputNumber</ng-template>
+            <ng-template #subtitle>Valores monetarios</ng-template>
+            <p-inputnumber [(ngModel)]="budget" mode="currency" currency="USD" locale="en-US" class="w-full"></p-inputnumber>
+            <small class="text-color-secondary">Presupuesto editable</small>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>14. MultiSelect</ng-template>
+            <ng-template #subtitle>Filtros y equipos</ng-template>
+            <p-multiselect [options]="teams" [(ngModel)]="selectedTeams" placeholder="Selecciona equipos" class="w-full"></p-multiselect>
+            <p class="text-color-secondary mb-0">{{ selectedTeams.length }} seleccionados</p>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>15. Slider</ng-template>
+            <ng-template #subtitle>Control de esfuerzo</ng-template>
+            <p-slider [(ngModel)]="effort" class="w-full"></p-slider>
+            <p class="text-color-secondary mb-0">Esfuerzo: {{ effort }}%</p>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>16. ToggleSwitch</ng-template>
+            <ng-template #subtitle>Preferencias de usuario</ng-template>
+            <div class="flex align-items-center gap-2">
+              <p-toggleswitch [(ngModel)]="notificationsEnabled"></p-toggleswitch>
+              <span>Notificaciones {{ notificationsEnabled ? 'activas' : 'inactivas' }}</span>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>17. Rating</ng-template>
+            <ng-template #subtitle>Valoración de resultados</ng-template>
+            <p-rating [(ngModel)]="rating"></p-rating>
+            <p class="text-color-secondary mb-0">Valoración: {{ rating }} de 5</p>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>18. Paginator</ng-template>
+            <ng-template #subtitle>Navegación de resultados</ng-template>
+            <p-paginator [rows]="5" [totalRecords]="25" (onPageChange)="onPageChange($event)"></p-paginator>
+            <p class="text-color-secondary mb-0">Página actual: {{ page + 1 }}</p>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>19. Panel</ng-template>
+            <ng-template #subtitle>Contenido colapsable</ng-template>
+            <p-panel header="Detalles del proyecto" [toggleable]="true">
+              <p class="m-0">El contenido puede ocultarse para reducir la densidad visual.</p>
+            </p-panel>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>20. Accordion</ng-template>
+            <ng-template #subtitle>Secciones organizadas</ng-template>
+            <p-accordion value="0">
+              <p-accordion-panel value="0">
+                <p-accordion-header>Resumen</p-accordion-header>
+                <p-accordion-content><p class="m-0">Resumen del proyecto y sus objetivos.</p></p-accordion-content>
+              </p-accordion-panel>
+              <p-accordion-panel value="1">
+                <p-accordion-header>Actividad</p-accordion-header>
+                <p-accordion-content><p class="m-0">Últimos cambios realizados por el equipo.</p></p-accordion-content>
+              </p-accordion-panel>
+            </p-accordion>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>21. Skeleton</ng-template>
+            <ng-template #subtitle>Estado de carga</ng-template>
+            <div class="flex flex-column gap-2">
+              <p-skeleton width="80%" height="1rem"></p-skeleton>
+              <p-skeleton width="60%" height="1rem"></p-skeleton>
+              <p-skeleton width="40%" height="1rem"></p-skeleton>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>25. Toast</ng-template>
+            <ng-template #subtitle>Notificación temporal de aplicación</ng-template>
+            <button pButton type="button" (click)="showToast()">Mostrar toast</button>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>26. Modal con input</ng-template>
+            <ng-template #subtitle>Captura de información contextual</ng-template>
+            <button pButton type="button" (click)="openInputDialog()">Abrir modal</button>
+            <p-dialog header="Editar valor" [(visible)]="inputDialogVisible" [modal]="true" [style]="{ width: 'min(32rem, 90vw)' }">
+              <div class="flex flex-column gap-2">
+                <label for="modal-value">Valor</label>
+                <input pInputText id="modal-value" [(ngModel)]="alertInput" placeholder="Escribe un valor">
+                @if (alertMessage && inputDialogVisible) { <p-message severity="warn">{{ alertMessage }}</p-message> }
+                <button pButton type="button" (click)="saveInputDialog()">Guardar valor</button>
+              </div>
+            </p-dialog>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>27. Alert con input</ng-template>
+            <ng-template #subtitle>Validación inline con Message</ng-template>
+            <div class="flex flex-column gap-2">
+              <label for="inline-value">Nombre de alerta</label>
+              <input pInputText id="inline-value" [(ngModel)]="alertInput" placeholder="Ej. Revisión pendiente">
+              @if (alertMessage) {
+                <p-message severity="info">{{ alertMessage }}</p-message>
+              }
+              <button pButton type="button" (click)="saveInputDialog()">Validar y guardar</button>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12">
+          <p-card>
+            <ng-template #title>28. PrimeIcons</ng-template>
+            <ng-template #subtitle>Iconos para navegación, estados y acciones</ng-template>
+            <div class="grid">
+              @for (icon of icons; track icon.className) {
+                <div class="col-6 sm:col-3 md:col-2 lg:col-1 text-center">
+                  <i class="pi {{ icon.className }} text-2xl" aria-hidden="true"></i>
+                  <small class="block mt-2">{{ icon.name }}</small>
+                </div>
+              }
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>29. Botones con iconos</ng-template>
+            <ng-template #subtitle>Acciones reconocibles y accesibles</ng-template>
+            <div class="flex flex-wrap align-items-center gap-2">
+              <button pButton type="button" [text]="true" pTooltip="Buscar" tooltipPosition="top" aria-label="Buscar" (click)="showToast()"><i class="pi pi-search" aria-hidden="true"></i></button>
+              <button pButton type="button" [text]="true" pTooltip="Editar" tooltipPosition="top" aria-label="Editar" (click)="saveDemo()"><i class="pi pi-pencil" aria-hidden="true"></i></button>
+              <button pButton type="button" [text]="true" severity="danger" pTooltip="Eliminar" tooltipPosition="top" aria-label="Eliminar" (click)="cancelDemo()"><i class="pi pi-trash" aria-hidden="true"></i></button>
+              <button pButton type="button" (click)="saveDemo()"><i class="pi pi-check" aria-hidden="true"></i> Confirmar</button>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <p-card>
+            <ng-template #title>30. Iconos en controles</ng-template>
+            <ng-template #subtitle>Indicadores visuales dentro de la interfaz</ng-template>
+            <div class="flex flex-column gap-3">
+              <span class="flex align-items-center gap-2"><i class="pi pi-check-circle text-green-500" aria-hidden="true"></i> Sincronización completada</span>
+              <span class="flex align-items-center gap-2"><i class="pi pi-info-circle text-blue-500" aria-hidden="true"></i> Revisión pendiente</span>
+              <span class="flex align-items-center gap-2"><i class="pi pi-exclamation-triangle text-orange-500" aria-hidden="true"></i> Requiere atención</span>
+            </div>
+          </p-card>
+        </div>
+      </div>
+      @if (demoMessage) {
+        <p-message class="mt-4" severity="info">{{ demoMessage }}</p-message>
+      }
+    </div>
+  </section>
+</main>

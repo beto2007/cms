@@ -4,6 +4,7 @@
       <span class="text-xl font-bold">Nova CMS</span>
     </ng-template>
     <ng-template #end>
+    <a pButton routerLink="/demo" [text]="true">Demo UI</a>
     @if (user()) {
       <a pButton routerLink="/tasks" [text]="true">Ir a mis tareas</a>
     } @else {
