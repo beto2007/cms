@@ -50,7 +50,6 @@ export class TasksComponent {
     try {
       await this.tasksService.deleteTask(currentUser, task.id);
       this.notifications.success('La tarea se eliminó correctamente.');
-      this.loadTasks(currentUser);
     } catch (error) {
       this.deleteError.set((error as { code?: string }).code === 'permission-denied'
         ? 'No tienes permiso para eliminar esta tarea.'
@@ -71,8 +70,4 @@ export class TasksComponent {
     );
   }
 
-  protected refreshTasks(): void {
-    const currentUser = this.user();
-    if (currentUser) this.loadTasks(currentUser);
-  }
 }

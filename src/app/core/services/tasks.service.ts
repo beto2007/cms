@@ -5,7 +5,7 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
+  onSnapshot,
   query,
   serverTimestamp,
   where
@@ -34,13 +34,14 @@ export class TasksService {
     const tasksCollection = collection(this.firestore, 'tasks');
     const tasksQuery = query(tasksCollection, where('uid', '==', user.uid));
     return new Observable<Task[]>((subscriber) => {
-      getDocs(tasksQuery).then((snapshot) => {
+      const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
         const tasks = snapshot.docs
           .map((document) => ({ id: document.id, ...document.data() }) as Task)
           .sort((first, second) => this.getTimestamp(second) - this.getTimestamp(first));
         subscriber.next(tasks);
-        subscriber.complete();
-      }).catch((error: unknown) => subscriber.error(error));
+      }, (error) => subscriber.error(error));
+
+      return unsubscribe;
     });
   }
 
