@@ -2,18 +2,23 @@ import { Component, EventEmitter, Input, Output, inject, signal } from '@angular
 import { FormsModule } from '@angular/forms';
 import { User } from 'firebase/auth';
 import { TasksService } from '../core/services/tasks.service';
+import { ButtonDirective } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { Textarea } from 'primeng/textarea';
+import { NotificationService } from '../core/services/notification.service';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-task-form',
-  imports: [FormsModule],
-  templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.scss'
+  imports: [FormsModule, ButtonDirective, InputText, Textarea, Card],
+  templateUrl: './task-form.component.html'
 })
 export class TaskFormComponent {
   @Input({ required: true }) user!: User;
   @Output() taskCreated = new EventEmitter<void>();
 
   private readonly tasksService = inject(TasksService);
+  private readonly notifications = inject(NotificationService);
   protected title = '';
   protected description = '';
   protected readonly saving = signal(false);
@@ -28,8 +33,10 @@ export class TaskFormComponent {
       this.title = '';
       this.description = '';
       this.taskCreated.emit();
+      this.notifications.success('La tarea se creó correctamente.');
     } catch (error) {
       this.error.set(this.getErrorMessage(error));
+      this.notifications.error(this.error());
     } finally {
       this.saving.set(false);
     }

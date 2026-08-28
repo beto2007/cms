@@ -1,1 +1,6 @@
 <router-outlet />
+@if (notification.current(); as message) {
+	<p-message [severity]="message.severity" [closable]="true" [life]="5000" (onClose)="notification.clear()">
+		<strong>{{ message.summary }}</strong>&nbsp;{{ message.detail }}
+	</p-message>
+}

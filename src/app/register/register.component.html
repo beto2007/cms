@@ -1,17 +1,16 @@
-<main class="auth-page">
-  <section class="auth-panel">
-    <a class="back-link" routerLink="/">← Nova CMS</a>
-    <p class="eyebrow">Registro</p>
-    <h1>Crea tu cuenta.</h1>
-    <p class="subtitle">Empieza a organizar tu trabajo.</p>
+<main class="min-h-screen flex justify-content-center align-items-center p-4">
+  <p-card class="w-full md:w-5">
+    <ng-template #header><a pButton routerLink="/" [text]="true">← Nova CMS</a></ng-template>
+    <ng-template #title>Crea tu cuenta.</ng-template>
+    <ng-template #subtitle>Empieza a organizar tu trabajo.</ng-template>
     <form (ngSubmit)="submit()" #registerForm="ngForm">
       <label for="register-email">Correo electrónico</label>
-      <input id="register-email" name="email" type="email" [(ngModel)]="email" required autocomplete="email">
+      <input pInputText id="register-email" name="email" type="email" [(ngModel)]="email" required autocomplete="email">
       <label for="register-password">Contraseña</label>
-      <input id="register-password" name="password" type="password" [(ngModel)]="password" required minlength="6" autocomplete="new-password">
+      <p-password inputId="register-password" name="password" [(ngModel)]="password" [feedback]="false" [toggleMask]="true" required [minlength]="6" autocomplete="new-password"></p-password>
       @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
-      <button class="button" type="submit" [disabled]="registerForm.invalid || loading()">{{ loading() ? 'Creando...' : 'Crear cuenta' }}</button>
+      <button pButton class="button" type="submit" [disabled]="registerForm.invalid || loading()">{{ loading() ? 'Creando...' : 'Crear cuenta' }}</button>
     </form>
-    <p class="auth-switch">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
-  </section>
+    <p class="text-center">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+  </p-card>
 </main>

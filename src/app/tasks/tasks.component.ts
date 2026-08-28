@@ -6,17 +6,23 @@ import { Observable, catchError, of } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { Task, TasksService } from '../core/services/tasks.service';
 import { TaskFormComponent } from './task-form.component';
+import { ButtonDirective } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { NotificationService } from '../core/services/notification.service';
+import { Toolbar } from 'primeng/toolbar';
+import { Tag } from 'primeng/tag';
+import { Divider } from 'primeng/divider';
 
 @Component({
   selector: 'app-tasks',
-  imports: [AsyncPipe, DatePipe, TaskFormComponent],
-  templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.scss'
+  imports: [AsyncPipe, DatePipe, TaskFormComponent, ButtonDirective, Card, Toolbar, Tag, Divider],
+  templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly tasksService = inject(TasksService);
+  private readonly notifications = inject(NotificationService);
   protected readonly user = this.authService.user;
   protected tasks$: Observable<Task[]> = of([]);
   protected loadError = false;
@@ -31,6 +37,7 @@ export class TasksComponent {
 
   protected async logout(): Promise<void> {
     await this.authService.signOut();
+    this.notifications.info('Sesión cerrada correctamente.');
     await this.router.navigateByUrl('/login');
   }
 
@@ -42,11 +49,13 @@ export class TasksComponent {
     this.deleteError.set('');
     try {
       await this.tasksService.deleteTask(currentUser, task.id);
+      this.notifications.success('La tarea se eliminó correctamente.');
       this.loadTasks(currentUser);
     } catch (error) {
       this.deleteError.set((error as { code?: string }).code === 'permission-denied'
         ? 'No tienes permiso para eliminar esta tarea.'
         : 'No se pudo eliminar la tarea. Inténtalo de nuevo.');
+      this.notifications.error(this.deleteError());
     } finally {
       this.deletingId.set(null);
     }

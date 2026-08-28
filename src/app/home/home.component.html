@@ -1,19 +1,29 @@
-<main class="home-page">
-  <nav class="home-nav">
-    <span class="brand">Nova CMS</span>
+<main>
+  <p-toolbar>
+    <ng-template #start>
+      <span class="text-xl font-bold">Nova CMS</span>
+    </ng-template>
+    <ng-template #end>
     @if (user()) {
-      <a class="nav-link" routerLink="/tasks">Ir a mis tareas</a>
+      <a pButton routerLink="/tasks" [text]="true">Ir a mis tareas</a>
     } @else {
-      <div class="nav-actions">
-        <a class="nav-link" routerLink="/login">Iniciar sesión</a>
-        <a class="nav-button" routerLink="/register">Crear cuenta</a>
-      </div>
+      <a pButton routerLink="/login" [text]="true">Iniciar sesión</a>
+      <a pButton routerLink="/register">Crear cuenta</a>
     }
-  </nav>
-  <section class="home-intro">
-    <p class="eyebrow">Organiza tu trabajo</p>
-    <h1>Todo lo importante,<br><em>en movimiento.</em></h1>
-    <p class="home-copy">Un espacio sencillo para convertir tus pendientes en progreso.</p>
-    <a class="primary-link" [routerLink]="user() ? '/tasks' : '/register'">{{ user() ? 'Ver mis tareas' : 'Comenzar ahora' }} <span aria-hidden="true">↗</span></a>
+    </ng-template>
+  </p-toolbar>
+  <section class="p-5">
+    <div class="w-full md:w-9 mx-auto">
+    <p class="text-color-secondary">Panel de control</p>
+    <h1 class="text-4xl m-0">Organiza tu trabajo</h1>
+    <p class="text-lg text-color-secondary">Un espacio sencillo para convertir tus pendientes en progreso.</p>
+    <p-card>
+      <ng-template #title>Tu espacio de trabajo</ng-template>
+      <ng-template #subtitle>Gestiona tus tareas desde un solo lugar.</ng-template>
+      <ng-template #footer>
+        <a pButton [routerLink]="user() ? '/tasks' : '/register'">{{ user() ? 'Ver mis tareas' : 'Comenzar ahora' }}</a>
+      </ng-template>
+    </p-card>
+    </div>
   </section>
 </main>

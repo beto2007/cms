@@ -1,12 +1,12 @@
-<section class="task-form-panel">
-  <p class="eyebrow">Nueva tarea</p>
-  <h2>Añadir trabajo</h2>
-  <form (ngSubmit)="submit()" #taskForm="ngForm">
+<p-card>
+  <ng-template #title>Nueva tarea</ng-template>
+  <ng-template #subtitle>Añadir trabajo al panel</ng-template>
+  <form class="p-fluid" (ngSubmit)="submit()" #taskForm="ngForm">
     <label for="task-title">Título</label>
-    <input id="task-title" name="title" type="text" [(ngModel)]="title" required maxlength="120" placeholder="Ej. Revisar propuesta">
+    <input pInputText id="task-title" name="title" type="text" [(ngModel)]="title" required maxlength="120" placeholder="Ej. Revisar propuesta">
     <label for="task-description">Descripción <span>(opcional)</span></label>
-    <textarea id="task-description" name="description" [(ngModel)]="description" maxlength="500" rows="4" placeholder="Añade algunos detalles"></textarea>
+    <textarea pTextarea id="task-description" name="description" [(ngModel)]="description" maxlength="500" rows="4" placeholder="Añade algunos detalles"></textarea>
     @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
-    <button class="button" type="submit" [disabled]="taskForm.invalid || saving()">{{ saving() ? 'Guardando...' : 'Crear tarea' }}</button>
+    <button pButton class="button" type="submit" [disabled]="taskForm.invalid || saving()">{{ saving() ? 'Guardando...' : 'Crear tarea' }}</button>
   </form>
-</section>
+</p-card>

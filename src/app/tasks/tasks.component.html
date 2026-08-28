@@ -1,21 +1,25 @@
 @if (user(); as currentUser) {
-<main class="tasks-page">
-  <header class="tasks-header">
-    <div>
-      <p class="eyebrow">Nova CMS</p>
-      <h1>Mis tareas</h1>
-      <p class="subtitle">{{ currentUser.email }}</p>
-    </div>
-    <button class="logout-button" type="button" (click)="logout()">Cerrar sesión</button>
-  </header>
-  <div class="tasks-layout">
+<main class="min-h-screen surface-ground">
+  <p-toolbar>
+    <ng-template #start><span class="text-xl font-bold">Nova CMS</span></ng-template>
+    <ng-template #end><button pButton type="button" (click)="logout()"><i class="pi pi-sign-out" aria-hidden="true"></i> Cerrar sesión</button></ng-template>
+  </p-toolbar>
+  <section class="p-4">
+  <div class="mb-4">
+    <p class="text-color-secondary m-0">Panel de control</p>
+    <h1 class="text-3xl mt-2">Mis tareas</h1>
+    <p class="text-color-secondary">{{ currentUser.email }}</p>
+  </div>
+  <div class="grid">
+    <div class="col-12 md:col-4">
     <app-task-form [user]="currentUser" (taskCreated)="refreshTasks()"></app-task-form>
-    <section class="task-list-panel">
+    </div>
+    <div class="col-12 md:col-8">
+    <p-card>
+      <ng-template #title>Listado de tareas</ng-template>
       @if (tasks$ | async; as tasks) {
-      <div class="section-heading">
-        <h2>Trabajo pendiente</h2>
-        <span>{{ tasks.length }}</span>
-      </div>
+      <p-divider></p-divider>
+      <p-tag [value]="tasks.length + ' tareas'" severity="info"></p-tag>
       @if (loadError) {
         <p class="empty-state">No se pudieron cargar tus tareas.</p>
       } @else {
@@ -24,25 +28,25 @@
         } @else {
           <div class="task-list">
             @for (task of tasks; track task.id) {
-              <article class="task-item">
+              <p-card styleClass="task-item">
                 <div class="task-status" [class.completed]="task.completed" aria-hidden="true"></div>
                 <div class="task-content">
                   <h3>{{ task.title }}</h3>
                   @if (task.description) { <p>{{ task.description }}</p> }
                   @if (task.createdAt?.toDate) { <time>{{ task.createdAt.toDate() | date:'mediumDate' }}</time> }
                 </div>
-                <button class="delete-button" type="button" (click)="deleteTask(task)" [disabled]="deletingId() === task.id">
-                  {{ deletingId() === task.id ? 'Eliminando...' : 'Eliminar' }}
-                </button>
-              </article>
+                <button pButton class="delete-button" type="button" (click)="deleteTask(task)" [disabled]="deletingId() === task.id"><i class="pi pi-trash" aria-hidden="true"></i> {{ deletingId() === task.id ? 'Eliminando...' : 'Eliminar' }}</button>
+              </p-card>
             }
           </div>
         }
       }
       }
       @if (deleteError()) { <p class="error" role="alert">{{ deleteError() }}</p> }
-    </section>
+    </p-card>
+    </div>
   </div>
+  </section>
 </main>
 } @else {
   <main class="tasks-page loading-page"><p class="empty-state">Cargando tu espacio...</p></main>
